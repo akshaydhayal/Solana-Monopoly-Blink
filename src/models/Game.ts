@@ -11,7 +11,6 @@ export interface IPlayerState {
 
 // ─── Game ────────────────────────────────────────────────────────────────────
 export interface IGame extends Document {
-  _id: any;
   status: "waiting" | "active" | "finished";
   player1: string;         // wallet pubkey
   player2?: string;

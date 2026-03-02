@@ -68,7 +68,7 @@ export function lamportsToSol(lamports: number): number {
   return lamports / 1_000_000_000;
 }
 
-export function getIconUrl(game: any, appUrl: string) {
+export function getIconUrl(game: { _id: unknown; players: { position: number; balance: number; wallet: string }[]; currentTurn?: string; lastAction?: string }, appUrl: string) {
   const p1 = game.players[0];
   const p2 = game.players[1];
   const turn = game.currentTurn === p1?.wallet ? "P1" : "P2";

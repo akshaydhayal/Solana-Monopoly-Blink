@@ -141,7 +141,7 @@ export default function GameBoard() {
   );
 }
 
-function PlayerCard({ player, isCurrent, title, color }: { player: Player | undefined; isCurrent: boolean; title: string; color: string }) {
+function PlayerCard({ player, isCurrent, title }: { player: Player | undefined; isCurrent: boolean; title: string; color: string }) {
   if (!player) return (
     <div className="bg-white/5 p-6 rounded-2xl border-4 border-dashed border-white/20 text-center py-12">
       <p className="text-sm font-black uppercase tracking-widest opacity-30">Awaiting Challenger...</p>
