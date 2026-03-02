@@ -3,7 +3,7 @@ import { PublicKey } from "@solana/web3.js";
 import connectDB from "@/lib/db";
 import Game from "@/models/Game";
 import { buildTransferToEscrow, serializeTx } from "@/lib/solana/escrow";
-import { ENTRY_FEE_SOL, START_BALANCE_SOL } from "@/lib/game/board";
+import { ENTRY_FEE_SOL } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -91,35 +91,18 @@ export async function POST(req: NextRequest) {
       return corsResponse({ message: "Cannot join your own game" }, 400);
     }
 
-    // Update game to active, assign player 2, set first turn to player 1
-    game.player2 = player2;
-    game.status = "active";
-    game.currentTurn = game.player1;
-    game.escrowBalance = ENTRY_FEE_SOL; // player1's stake (tracked)
-    game.players.push({
-      wallet: player2,
-      position: 0,
-      balance: START_BALANCE_SOL,
-      bankrupt: false,
-      jailTurns: 0,
-    });
-    game.lastAction = `${player2.slice(0, 8)}... joined! Player 1 goes first.`;
-    await game.save();
-
     // Build stake transfer (player2 → escrow)
     const tx = await buildTransferToEscrow(player2Pubkey, ENTRY_FEE_SOL);
     const serialized = serializeTx(tx);
 
-    const rollUrl = `/api/actions/monopoly/${gameId}/roll`;
-
     return corsResponse({
       type: "transaction",
       transaction: serialized,
-      message: `Joined game! Player 1 (${game.player1.slice(0, 8)}...) goes first.`,
+      message: `Stake ${ENTRY_FEE_SOL} SOL to join the game!`,
       links: {
         next: {
           type: "post",
-          href: `${APP_URL}/api/actions/monopoly/${gameId}/roll-callback`,
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/join-callback`,
         },
       },
     });

@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
                 Monopoly Blink
               </span>
               <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "16px", fontWeight: "bold" }}>
-                {turn}'s Turn | Devnet
+                {turn}&apos;s Turn | Devnet
               </span>
             </div>
             <div style={{ backgroundColor: "#cc0000", padding: "5px 15px", borderRadius: "10px", display: "flex", alignItems: "center" }}>
@@ -98,7 +98,8 @@ export async function GET(req: NextRequest) {
         height: 600,
       }
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
+    console.error("Failed to generate image", err);
     return new Response("Failed to generate image", { status: 500 });
   }
 }

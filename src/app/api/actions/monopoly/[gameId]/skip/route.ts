@@ -49,6 +49,8 @@ export async function POST(
     const body = await req.json();
     const wallet = body.account as string;
 
+    if (!wallet) return corsResponse({ message: "Missing account" }, 400);
+
     let walletPubkey: PublicKey;
     try {
       walletPubkey = new PublicKey(wallet);
@@ -63,42 +65,17 @@ export async function POST(
     if (game.status !== "active") return corsResponse({ message: "Game not active" }, 400);
     if (game.currentTurn !== wallet) return corsResponse({ message: "Not your turn" }, 400);
 
-    // Switch turns
-    const opponent = game.players.find((p: IPlayerState) => p.wallet !== wallet)!;
-    game.currentTurn = opponent.wallet;
-    game.lastAction = `${wallet.slice(0, 8)}... skipped buying. Opponent's turn.`;
-    await game.save();
-
     const tx = await buildMemoTx(walletPubkey, `monopoly:skip:${gameId}`);
     const serialized = serializeTx(tx);
-
-    const p1 = game.players[0];
-    const p2 = game.players[1];
 
     return corsResponse({
       type: "transaction",
       transaction: serialized,
-      message: "Skipped buying. Opponent's turn!",
+      message: "Skipping purchase...",
       links: {
         next: {
-          type: "inline",
-          action: {
-            type: "action",
-            icon: getIconUrl(game, APP_URL),
-            title: "⏭ Turn Passed",
-            description: `P1 bal: ${p1?.balance?.toFixed(3)} SOL | P2 bal: ${p2?.balance?.toFixed(3)} SOL\n\nOpponent's turn! Share roll link:\n${APP_URL}/api/actions/monopoly/${gameId}/roll`,
-            label: "Waiting for opponent...",
-            disabled: true,
-            links: {
-              actions: [
-                {
-                  type: "transaction",
-                  href: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
-                  label: "🎲 Roll Dice",
-                },
-              ],
-            },
-          },
+          type: "post",
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/skip-result`,
         },
       },
     });

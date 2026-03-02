@@ -74,72 +74,17 @@ export async function POST(
     const square = getSquare(position);
     if (square.type !== "property") return corsResponse({ message: "Not a property" }, 400);
 
-    const propsMap: Record<string, string> = game.properties instanceof Map
-      ? Object.fromEntries(game.properties.entries())
-      : { ...game.properties };
-
-    if (propsMap[String(position)]) {
-      return corsResponse({ message: "Property already owned" }, 400);
-    }
-
-    const playerIdx = game.players.findIndex((p: IPlayerState) => p.wallet === wallet);
-    const player = game.players[playerIdx];
-    const price = square.price || 0;
-
-    if (player.balance < price) {
-      return corsResponse({ message: `Insufficient balance. Need ${price} SOL, have ${player.balance.toFixed(3)} SOL` }, 400);
-    }
-
-    // Deduct cost and assign property
-    game.players[playerIdx].balance -= price;
-    game.set(`properties.${position}`, wallet);
-
-    // Switch turns
-    const opponent = game.players.find((p: IPlayerState) => p.wallet !== wallet)!;
-    game.currentTurn = opponent.wallet;
-    const actionMessage = `${wallet.slice(0, 8)}... bought ${square.name} for ${price} SOL!`;
-    game.lastAction = actionMessage;
-
-    game.markModified("players");
-    game.markModified("properties");
-    await game.save();
-
     const tx = await buildMemoTx(walletPubkey, `monopoly:buy:${gameId}:${position}`);
     const serialized = serializeTx(tx);
-
-    const p1 = game.players[0];
-    const p2 = game.players[1];
-    const ownedProps = BOARD.filter((sq) => {
-      const map = game.properties instanceof Map
-        ? Object.fromEntries(game.properties.entries())
-        : game.properties;
-      return map[String(sq.index)] === wallet;
-    }).map(sq => sq.name).join(", ");
 
     return corsResponse({
       type: "transaction",
       transaction: serialized,
-      message: actionMessage,
+      message: `Finalizing purchase of ${square.name}...`,
       links: {
         next: {
-          type: "inline",
-          action: {
-            type: "action",
-            icon: getIconUrl(game, APP_URL),
-            title: "🏠 Property Purchased!",
-            description: `${actionMessage}\n\nYour properties: ${ownedProps || "none"}\n\nP1 bal: ${p1?.balance?.toFixed(3)} SOL | P2 bal: ${p2?.balance?.toFixed(3)} SOL\n\nOpponent's turn: ${APP_URL}/api/actions/monopoly/${gameId}/roll`,
-            label: "Opponent's turn",
-            disabled: true,
-            links: {
-              actions: [
-                {
-                  type: "transaction",
-                  href: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
-                  label: "🎲 Roll Dice",
-                },
-              ],
-            },
-          },
+          type: "post",
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/buy-result?position=${position}`,
         },
       },
     });
