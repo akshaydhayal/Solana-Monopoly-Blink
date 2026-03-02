@@ -60,7 +60,7 @@ Here is the step-by-step flow of the game, played entirely within Dial.to Blinks
     </td>
     <td align="center">
       <b>6. Action Phase (Player 1)</b><br/><br/>
-      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game6.png" alt="Player 1 rolled dice and saw options to buy or skip" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game7.png" alt="Player 1 rolled dice and saw options to buy or skip" width="300" />
     </td>
   </tr>
 </table>
