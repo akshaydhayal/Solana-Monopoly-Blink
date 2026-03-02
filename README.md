@@ -28,7 +28,11 @@ The classic board game reinvented entirely as a **Solana Action/Blink** allowing
 5. If an unowned property is landed on, the player can choose to **Buy** or **Skip**.
 6. Play continues until one player runs out of virtual SOL and triggers a `BANKRUPT` status. The Escrow Vault automatically signs a transaction transferring the entire real SOL prize pool to the winner!
 
-## Game Flow & Screenshots 📸
+## 📺 Project Demo
+### 🎥 Presentation Video
+[Watch the Demo](https://drive.google.com/file/d/12L26og-QO4bVthYqJpAJuAaZ_RB7cWWZ/view?usp=drive_link)
+
+### Game Flow & Screenshots 📸
 
 Here is the step-by-step flow of the game, played entirely within Dial.to Blinks!
 
