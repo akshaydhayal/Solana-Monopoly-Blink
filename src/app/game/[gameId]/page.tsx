@@ -116,12 +116,16 @@ export default function GameBoard() {
                 )}
 
                 {/* Tokens (pulse if current turn) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 sm:gap-2 z-20 pointer-events-none">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 sm:gap-2 z-20 pointer-events-none items-center justify-center">
                   {isP1Here && (
-                    <div className={`w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#cc0000] border-2 border-white translate-y-2 lg:translate-y-4 ${game.currentTurn === p1?.wallet ? 'animate-pulse shadow-[0_0_15px_rgba(204,0,0,1)]' : 'shadow-xl'}`} />
+                    <div className={`text-2xl sm:text-3xl filter drop-shadow-md translate-y-2 lg:translate-y-4 ${game.currentTurn === p1?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
+                      🎩
+                    </div>
                   )}
                   {isP2Here && (
-                    <div className={`w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#000000] border-2 border-white -translate-y-2 lg:-translate-y-4 ${game.currentTurn === p2?.wallet ? 'animate-pulse shadow-[0_0_15px_rgba(255,255,255,1)]' : 'shadow-xl'}`} />
+                    <div className={`text-2xl sm:text-3xl filter drop-shadow-md -translate-y-2 lg:-translate-y-4 ${game.currentTurn === p2?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
+                      🏎️
+                    </div>
                   )}
                 </div>
 
@@ -180,29 +184,35 @@ export default function GameBoard() {
             {/* Players Status Horizontal */}
             <div className="flex justify-around gap-4 w-full">
               {/* P1 */}
-              <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p1?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-xl transform scale-105 transition-transform' : 'border-[#cc0000] bg-[#cc0000]/20 text-white'}`}>
+              <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p1?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-lg transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#cc0000] border-2 border-white" />
+                    <span className="text-xl">🎩</span>
                     <span className="font-black uppercase text-sm">Player 1</span>
                   </div>
-                  <span className="bg-white/20 px-2 py-1 rounded text-xs font-bold">{p1 ? `${p1.balance.toFixed(3)} SOL` : 'Wait...'}</span>
+                  <span className={`${game.currentTurn === p1?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-2 py-1 rounded text-xs font-bold`}>{p1 ? `${p1.balance.toFixed(3)} SOL` : 'Wait...'}</span>
                 </div>
-                <p className="text-[10px] font-mono break-all opacity-80">{p1?.wallet || "Host..."}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest mt-2">📍 {p1?.positionName || "GO"}</p>
+                <p className="text-[10px] font-mono break-all opacity-80 mb-2">{p1?.wallet || "Host..."}</p>
+                <div className="bg-black/5 p-2 rounded flex justify-between items-center">
+                   <span className="text-[9px] uppercase font-bold opacity-50">Location</span>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-[#cc0000]">📍 {p1?.positionName || "GO"}</span>
+                </div>
               </div>
 
                {/* P2 */}
-              <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p2?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-xl transform scale-105 transition-transform' : 'border-[#000000] bg-black/40 text-white'}`}>
+               <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p2?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-lg transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-[#000000] border-2 border-white" />
+                    <span className="text-xl">🏎️</span>
                     <span className="font-black uppercase text-sm">Player 2</span>
                   </div>
-                  <span className="bg-white/20 px-2 py-1 rounded text-xs font-bold">{p2 ? `${p2.balance.toFixed(3)} SOL` : 'Wait...'}</span>
+                  <span className={`${game.currentTurn === p2?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-2 py-1 rounded text-xs font-bold`}>{p2 ? `${p2.balance.toFixed(3)} SOL` : 'Wait...'}</span>
                 </div>
-                <p className="text-[10px] font-mono break-all opacity-80">{p2?.wallet || "Waiting..."}</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest mt-2">📍 {p2?.positionName || "GO"}</p>
+                <p className="text-[10px] font-mono break-all opacity-80 mb-2">{p2?.wallet || "Waiting..."}</p>
+                <div className="bg-black/5 p-2 rounded flex justify-between items-center">
+                   <span className="text-[9px] uppercase font-bold opacity-50">Location</span>
+                   <span className="text-[10px] font-black uppercase tracking-widest text-[#000000]">📍 {p2?.positionName || "GO"}</span>
+                </div>
               </div>
             </div>
 
