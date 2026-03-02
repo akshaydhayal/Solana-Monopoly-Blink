@@ -4,6 +4,8 @@ import Game, { IPlayerState } from "@/models/Game";
 import { corsResponse, corsOptions } from "@/lib/cors";
 import { BOARD } from "@/lib/game/board";
 
+export const dynamic = "force-dynamic";
+
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export async function OPTIONS() {

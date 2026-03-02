@@ -8,6 +8,8 @@ import { ENTRY_FEE_SOL } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
 import { getBaseUrl } from "@/lib/getBaseUrl";
 
+export const dynamic = "force-dynamic";
+
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export async function OPTIONS(_req: NextRequest) {
