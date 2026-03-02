@@ -115,10 +115,14 @@ export default function GameBoard() {
                   <div className="absolute top-0 w-full h-1/4 min-h-[16px] border-b-2 border-black/30" style={{ backgroundColor: square.color }} />
                 )}
 
-                {/* Tokens */}
+                {/* Tokens (pulse if current turn) */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 sm:gap-2 z-20 pointer-events-none">
-                  {isP1Here && <div className="w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#cc0000] border-2 border-white shadow-xl translate-y-2 lg:translate-y-4" />}
-                  {isP2Here && <div className="w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#000000] border-2 border-white shadow-xl -translate-y-2 lg:-translate-y-4" />}
+                  {isP1Here && (
+                    <div className={`w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#cc0000] border-2 border-white translate-y-2 lg:translate-y-4 ${game.currentTurn === p1?.wallet ? 'animate-pulse shadow-[0_0_15px_rgba(204,0,0,1)]' : 'shadow-xl'}`} />
+                  )}
+                  {isP2Here && (
+                    <div className={`w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#000000] border-2 border-white -translate-y-2 lg:-translate-y-4 ${game.currentTurn === p2?.wallet ? 'animate-pulse shadow-[0_0_15px_rgba(255,255,255,1)]' : 'shadow-xl'}`} />
+                  )}
                 </div>
 
                 <div className="z-10 mt-2 px-1 text-[10px] lg:text-xs font-black uppercase leading-[1.1] break-words">

@@ -113,34 +113,39 @@ export async function POST(
       const propOwner = propsMap[String(newPos)];
 
       if (!propOwner) {
-        // Unowned — offer to buy
-        actionMessage += `. Available to buy for ${square.price} SOL!`;
-        game.lastAction = actionMessage;
-        game.currentTurn = wallet; // stay on current player!
-        game.markModified("players");
-        await game.save();
+        // Unowned — check if affordable
+        if (square.price && player.balance >= square.price) {
+          actionMessage += `. Available to buy for ${square.price} SOL!`;
+          game.lastAction = actionMessage;
+          game.currentTurn = wallet; // stay on current player!
+          game.markModified("players");
+          await game.save();
 
-        return corsResponse({
-          type: "action",
-          icon: getIconUrl(game, APP_URL),
-          title: `🏠 Buy ${square.name}?`,
-          description: `${actionMessage}\n\nBuy for ${square.price} SOL and collect ${square.rent} SOL rent per visit?\n\n${buildBoardSummary(game)}`,
-          label: `Buy ${square.name}`,
-          links: {
-            actions: [
-              {
-                type: "transaction",
-                href: `${APP_URL}/api/actions/monopoly/${gameId}/buy?position=${newPos}`,
-                label: `💰 Buy for ${square.price} SOL`,
-              },
-              {
-                type: "transaction",
-                href: `${APP_URL}/api/actions/monopoly/${gameId}/skip`,
-                label: "⏭ Skip (don't buy)",
-              },
-            ],
-          },
-        });
+          return corsResponse({
+            type: "action",
+            icon: getIconUrl(game, APP_URL),
+            title: `🏠 Buy ${square.name}?`,
+            description: `${actionMessage}\n\nBuy for ${square.price} SOL and collect ${square.rent} SOL rent per visit?\n\n${buildBoardSummary(game)}`,
+            label: `Buy ${square.name}`,
+            links: {
+              actions: [
+                {
+                  type: "transaction",
+                  href: `${APP_URL}/api/actions/monopoly/${gameId}/buy?position=${newPos}`,
+                  label: `💰 Buy for ${square.price} SOL`,
+                },
+                {
+                  type: "transaction",
+                  href: `${APP_URL}/api/actions/monopoly/${gameId}/skip`,
+                  label: "⏭ Skip (don't buy)",
+                },
+              ],
+            },
+          });
+        } else {
+          // Cannot afford, auto skip
+          actionMessage += `. Too expensive to buy! ${square.price} SOL needed.`;
+        }
       } else if (propOwner === wallet) {
         actionMessage += `. You own this property.`;
       } else {
