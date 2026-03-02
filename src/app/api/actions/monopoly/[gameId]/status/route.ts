@@ -67,7 +67,7 @@ export async function GET(
       },
     ],
     escrowBalance: game.escrowBalance,
-    rollUrl: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
-    joinUrl: `${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`,
+    rollUrl: `https://dial.to/?action=solana-action:${encodeURIComponent(`${APP_URL}/api/actions/monopoly/${gameId}/roll`)}&cluster=devnet`,
+    joinUrl: `https://dial.to/?action=solana-action:${encodeURIComponent(`${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`)}&cluster=devnet`,
   });
 }

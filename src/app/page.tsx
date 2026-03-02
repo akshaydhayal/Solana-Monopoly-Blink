@@ -50,7 +50,7 @@ export default function Home() {
           <div className="w-full flex flex-col items-center space-y-4 pt-4">
             <button
                onClick={() => {
-                 window.location.href = "https://dial.to/?action=solana-action:" + window.location.origin + "/api/actions/monopoly/create";
+                 window.location.href = "https://dial.to/?action=solana-action:" + encodeURIComponent("https://solana-monopoly-blink.vercel.app/api/actions/monopoly/create") + "&cluster=devnet";
                }}
                className="bg-[#cc0000] hover:bg-[#a30000] text-white text-2xl font-black py-4 px-10 rounded-full shadow-xl transform active:scale-95 transition-all uppercase tracking-widest border-4 border-[#00392b]"
             >

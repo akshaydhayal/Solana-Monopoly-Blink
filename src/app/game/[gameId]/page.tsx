@@ -26,8 +26,6 @@ interface GameStatus {
   joinUrl: string;
 }
 
-const BOARD_SQUARES = 30;
-
 export default function GameBoard() {
   const { gameId } = useParams();
   const [game, setGame] = useState<GameStatus | null>(null);
@@ -101,22 +99,45 @@ export default function GameBoard() {
           {/* Board & Share */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl p-8 border-8 border-white shadow-2xl overflow-hidden min-h-[400px] flex flex-col items-center justify-center text-[#00392b]">
-              <Image src="/monopoly-icon.png" alt="Board" width={150} height={150} className="mb-6 opacity-80" />
-              <div className="text-center">
+              <Image src="/monopoly-icon.png" alt="Board" width={120} height={120} className="mb-6 opacity-80" />
+              <div className="text-center w-full">
                  <h4 className="text-3xl font-black uppercase mb-4 tracking-tighter">Blink Links</h4>
-                 <div className="space-y-4">
+                 <div className="space-y-4 text-left">
+                    {/* Join Link */}
                     <div className="bg-gray-100 p-4 rounded-xl border-2 border-dashed border-gray-400">
-                      <p className="text-xs font-black uppercase text-gray-500 mb-1">Create Shareable URL</p>
-                      <code className="text-xs break-all font-mono font-bold bg-white p-2 rounded block">
+                      <p className="text-xs font-black uppercase text-gray-500 mb-2">
+                        {game.status === "waiting" ? "🔗 Share with Player 2 to Join" : "🔗 Player 2 Join Link"}
+                      </p>
+                      <code className="text-xs break-all font-mono bg-white p-2 rounded block mb-3 text-gray-700">
                         {game.joinUrl}
                       </code>
+                      <a
+                        href={game.joinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block bg-[#00392b] hover:bg-[#005540] text-white font-black text-xs py-2 px-4 rounded-lg text-center uppercase tracking-widest transition-colors"
+                      >
+                        Open in Dial.to →
+                      </a>
                     </div>
+
+                    {/* Roll Dice Link (when active) */}
                     {game.status === "active" && (
                     <div className="bg-[#cc0000]/10 p-4 rounded-xl border-2 border-[#cc0000]">
-                      <p className="text-xs font-black uppercase text-[#cc0000] mb-1">Current Turn URL (Copy to Dial.to)</p>
-                      <code className="text-xs break-all font-mono font-bold bg-white p-2 rounded block">
+                      <p className="text-xs font-black uppercase text-[#cc0000] mb-2">
+                        🎲 Roll Dice — Current Player{game.currentTurn ? ` (${game.currentTurn.slice(0,8)}...)` : ""}
+                      </p>
+                      <code className="text-xs break-all font-mono bg-white p-2 rounded block mb-3 text-gray-700">
                         {game.rollUrl}
                       </code>
+                      <a
+                        href={game.rollUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block bg-[#cc0000] hover:bg-[#a30000] text-white font-black text-xs py-2 px-4 rounded-lg text-center uppercase tracking-widest transition-colors"
+                      >
+                        Roll Dice in Dial.to →
+                      </a>
                     </div>
                     )}
                  </div>
