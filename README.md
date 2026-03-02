@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Monopoly Blink 🎲🚀
 
-## Getting Started
+The classic board game reinvented entirely as a **Solana Action/Blink** allowing two players to stake SOL, roll dice, buy 20 distinct properties, and bankrupt each other directly from inside their Solana wallet (like Phantom) or Twitter feed via Dial.to!
 
-First, run the development server:
+## Features 🌟
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Fully Playground in the Wallet:** You don't need a frontend to play! The entire game loop (create, join, roll, buy, skip) runs as natively integrated Action buttons through Dial.to.
+2. **Real SOL Stakes:** Both players buy-in with `0.1 SOL` (Devnet) entry fee held in an Escrow Vault. Winner takes all `0.2 SOL`.
+3. **Database-Driven Virtual Economy:** To prevent high network costs and delays, in-game rent and property purchases use virtual "Monopoly Money" synced via MongoDB. Real blockchain transactions are only invoked for the Entry Fee and Final Payout.
+4. **Immersive Web Dashboard:** Includes a live, auto-refreshing 6x6 compact CSS Grid Dashboard displaying the 20-tile board, player positions (with animated emojis!), property ownership bars, and an active turn action log.
+
+## Project Architecture 🏗️
+
+- **Framework**: Next.js 16 (React + TypeScript)
+- **Solana Integrations**: `@solana/actions`, `@solana/web3.js`
+- **Database**: MongoDB (Mongoose) for real-time game state tracking without blockchain latency.
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel Serverless (with dynamic route forcing).
+
+## How to Play 🎮
+
+1. **Player 1 (Host)** initiates the game via the `Create Game` Blink, signing a transaction to send `0.1 SOL` to the escrow.
+2. The Host shares the **Join Link** with Player 2.
+3. **Player 2** joins, matching the `0.1 SOL` stake.
+4. Both players take turns clicking **Roll Dice**. The game automatically resolves rent payments if they land on an owned property.
+5. If an unowned property is landed on, the player can choose to **Buy** or **Skip**.
+6. Play continues until one player runs out of virtual SOL and triggers a `BANKRUPT` status. The Escrow Vault automatically signs a transaction transferring the entire real SOL prize pool to the winner!
+
+## Environment Setup 🛠️
+
+Create a `.env.local` or `.env` file in the root directory:
+
+```env
+# URL for callbacks (important for Dial.to Mixed Content blocking)
+NEXT_PUBLIC_APP_URL=https://your-ngrok-url.ngrok-free.app
+
+# Devnet RPC
+NEXT_PUBLIC_RPC_URL=https://api.devnet.solana.com
+
+# Your MongoDB cluster connection string
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/monopoly
+
+# System Escrow Wallet (Hold the entry fees and auto-pays the winner)
+# Base58 private key array format
+ESCROW_PRIVATE_KEY=[1,2,3...255]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running Locally 💻
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+# Note: To test actual Blinks in Dial.to, you MUST use ngrok to expose localhost as HTTPS.
+ngrok http 3000
+```

@@ -25,28 +25,6 @@ export default function Home() {
             />
           </div>
 
-          <div className="text-center space-y-4">
-            <h2 className="text-3xl font-black uppercase">Start Your Empire</h2>
-            <p className="text-lg font-medium max-w-md mx-auto leading-relaxed">
-              Experience the classic game reinvented as a Solana Blink. 
-              Stake SOL, roll dice, buy properties, and bankrupt your opponent — 
-              all within your wallet!
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-xl">
-            <div className="bg-[#e8f5e9] p-6 rounded-xl border-2 border-[#4caf50] flex flex-col items-center text-center">
-              <span className="text-4xl mb-2">🎲</span>
-              <h3 className="font-black text-xl mb-1">STAKE & PLAY</h3>
-              <p className="text-sm font-bold opacity-75">0.1 SOL Entry Fee<br/>Winner takes all!</p>
-            </div>
-            <div className="bg-[#fff3e0] p-6 rounded-xl border-2 border-[#ff9800] flex flex-col items-center text-center">
-              <span className="text-4xl mb-2">🔗</span>
-              <h3 className="font-black text-xl mb-1">BLINK READY</h3>
-              <p className="text-sm font-bold opacity-75">No frontend needed<br/>Play in your wallet</p>
-            </div>
-          </div>
-
           <div className="w-full flex flex-col items-center space-y-4 pt-4">
             <button
                onClick={() => {
