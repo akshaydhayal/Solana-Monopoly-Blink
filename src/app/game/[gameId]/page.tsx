@@ -27,16 +27,16 @@ interface GameStatus {
   rawProperties: Record<string, string>; // square index -> owner wallet
 }
 
-// 30 squares, perimeter layout around a 9x8 CSS Grid:
-// Bottom row = index 0 to 8 (9 squares, right-to-left)
-// Left col = index 9 to 14 (6 squares, bottom-to-top)
-// Top row = index 15 to 23 (9 squares, left-to-right)
-// Right col = index 24 to 29 (6 squares, top-to-bottom)
+// 20 squares, perimeter layout around a 6x6 CSS Grid:
+// Bottom row = index 0 to 5 (6 squares, right-to-left)
+// Left col = index 6 to 9 (4 squares, bottom-to-top)
+// Top row = index 10 to 15 (6 squares, left-to-right)
+// Right col = index 16 to 19 (4 squares, top-to-bottom)
 function getGridPos(index: number) {
-  if (index <= 8) return { gridRow: 8, gridColumn: 9 - index }; 
-  if (index >= 9 && index <= 14) return { gridRow: 16 - index, gridColumn: 1 };
-  if (index >= 15 && index <= 23) return { gridRow: 1, gridColumn: index - 14 };
-  if (index >= 24 && index <= 29) return { gridRow: index - 22, gridColumn: 9 };
+  if (index <= 5) return { gridRow: 6, gridColumn: 6 - index }; 
+  if (index >= 6 && index <= 9) return { gridRow: 11 - index, gridColumn: 1 };
+  if (index >= 10 && index <= 15) return { gridRow: 1, gridColumn: index - 9 };
+  if (index >= 16 && index <= 19) return { gridRow: index - 14, gridColumn: 6 };
   return { gridRow: 1, gridColumn: 1 };
 }
 
@@ -75,16 +75,16 @@ export default function GameBoard() {
         
         {/* Monopoly Visual Grid Layout */}
         <div style={{
-          minWidth: '900px',
+          minWidth: '800px',
           width: '100%',
           display: 'grid',
-          gridTemplateColumns: 'repeat(9, minmax(0, 1fr))',
-          gridTemplateRows: 'repeat(8, minmax(0, 1fr))',
-          gap: '4px',
+          gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
+          gridTemplateRows: 'repeat(6, minmax(0, 1fr))',
+          gap: '6px',
           backgroundColor: '#cc0000',
-          padding: '8px',
-          borderRadius: '16px',
-          aspectRatio: '9/8',
+          padding: '10px',
+          borderRadius: '20px',
+          aspectRatio: '1/1',
           boxShadow: '0 25px 50px -12px rgba(0, 57, 43, 0.5)'
         }}>
 
@@ -148,17 +148,17 @@ export default function GameBoard() {
 
           {/* Center Dashboard (Grid Center hollow area) */}
           <div style={{
-            gridColumn: '2 / 9',
-            gridRow: '2 / 8',
+            gridColumn: '2 / 6',
+            gridRow: '2 / 6',
             backgroundColor: '#00392b',
-            borderRadius: '12px',
-            margin: '8px',
+            borderRadius: '16px',
+            margin: '10px',
             padding: '24px',
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
             border: '6px solid white'
-          }} className="space-y-6 text-white text-center">
+          }} className="space-y-4 text-white text-center">
             
             <div className="flex justify-between items-center border-b-2 border-white/20 pb-4">
                <div>
