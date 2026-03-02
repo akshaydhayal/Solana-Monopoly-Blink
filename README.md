@@ -26,6 +26,51 @@ The classic board game reinvented entirely as a **Solana Action/Blink** allowing
 5. If an unowned property is landed on, the player can choose to **Buy** or **Skip**.
 6. Play continues until one player runs out of virtual SOL and triggers a `BANKRUPT` status. The Escrow Vault automatically signs a transaction transferring the entire real SOL prize pool to the winner!
 
+## Game Flow & Screenshots 📸
+
+Here is the step-by-step flow of the game, played entirely within Dial.to Blinks!
+
+<table>
+  <tr>
+    <td align="center">
+      <b>1. Initial State (Player 1)</b><br/><br/>
+      <img src="placeholder_1_before_create.png" alt="Before creating game for Player 1" width="300" />
+    </td>
+    <td align="center">
+      <b>2. Game Created (Player 1)</b><br/><br/>
+      <img src="placeholder_2_after_create.png" alt="After creating game, blink for Player 1" width="300" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>3. Incoming Invite (Player 2)</b><br/><br/>
+      <img src="placeholder_3_before_join.png" alt="How blink looks for Player 2 before joining" width="300" />
+    </td>
+    <td align="center">
+      <b>4. Game Joined (Player 2)</b><br/><br/>
+      <img src="placeholder_4_after_join.png" alt="After joining game for Player 2" width="300" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>5. Roll Dice (Player 1)</b><br/><br/>
+      <img src="placeholder_5_roll_dice.png" alt="Roll dice blink for Player 1" width="300" />
+    </td>
+    <td align="center">
+      <b>6. Action Phase (Player 1)</b><br/><br/>
+      <img src="placeholder_6_buy_property.png" alt="Player 1 rolled dice and saw options to buy or skip" width="300" />
+    </td>
+  </tr>
+</table>
+
+### Live Game Dashboard 🖥️
+
+Players can watch their emojis move around the board in real-time as they click through the Blinks!
+
+<div align="center">
+  <img src="placeholder_7_dashboard.png" alt="The game dashboard page look" />
+</div>
+
 ## Environment Setup 🛠️
 
 Create a `.env.local` or `.env` file in the root directory:
