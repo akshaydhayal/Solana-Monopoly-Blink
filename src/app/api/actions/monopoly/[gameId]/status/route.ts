@@ -68,6 +68,7 @@ export async function GET(
         properties: p2Props,
       },
     ],
+    rawProperties: propsMap,
     escrowBalance: game.escrowBalance,
     rollUrl: `https://dial.to/?action=solana-action:${encodeURIComponent(`${APP_URL}/api/actions/monopoly/${gameId}/roll`)}&cluster=devnet`,
     joinUrl: `https://dial.to/?action=solana-action:${encodeURIComponent(`${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`)}&cluster=devnet`,
