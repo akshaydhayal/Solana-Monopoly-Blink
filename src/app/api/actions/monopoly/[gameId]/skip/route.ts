@@ -24,6 +24,7 @@ export async function GET(
 
   return corsResponse({
     type: "action",
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
     icon: getIconUrl(game, APP_URL),
     title: "⏭ Skip Buying Property",
     description: "Pass on buying this property and end your turn.",

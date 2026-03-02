@@ -39,6 +39,7 @@ export async function GET(req: NextRequest) {
 
   return corsResponse({
     type: "action",
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
     icon: `${APP_URL}/monopoly-icon.png`,
     title: `🎲 Join Monopoly Game`,
     description: `You've been invited to a Monopoly game!\n\nGame ID: ${gameId.slice(-6)}\nPlayer 1: ${game.player1.slice(0, 8)}...\n\nStake ${ENTRY_FEE_SOL} SOL to join. Winner takes ${ENTRY_FEE_SOL * 2} SOL!`,

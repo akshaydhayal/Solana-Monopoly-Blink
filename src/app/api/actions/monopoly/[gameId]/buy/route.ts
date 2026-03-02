@@ -27,6 +27,7 @@ export async function GET(
 
   return corsResponse({
     type: "action",
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
     icon: getIconUrl(game, APP_URL),
     title: `🏠 Buy ${square.name}?`,
     description: `Purchase ${square.name} for ${square.price} SOL. Collect ${square.rent} SOL rent when opponent lands here.`,

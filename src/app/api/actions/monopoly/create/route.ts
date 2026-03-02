@@ -20,6 +20,7 @@ export async function OPTIONS(_req: NextRequest) {
 export async function GET(_req: NextRequest) {
   return corsResponse({
     type: "action",
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
     icon: `${APP_URL}/monopoly-icon.png`,
     title: "🎲 Monopoly Blink — Create Game",
     description: `Start a 2-player Monopoly game on Solana devnet! Both players stake ${ENTRY_FEE_SOL} SOL. Winner takes all. Share the join link with your opponent after creating.`,
