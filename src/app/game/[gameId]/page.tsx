@@ -74,16 +74,16 @@ export default function GameBoard() {
       <div className="w-full max-w-7xl mx-auto overflow-x-auto overflow-y-hidden py-4">
         
         {/* Monopoly Visual Grid Layout */}
-        <div style={{
-          minWidth: '800px',
+        <div className="mx-auto mt-2" style={{
+          maxWidth: '650px',
           width: '100%',
           display: 'grid',
           gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
           gridTemplateRows: 'repeat(6, minmax(0, 1fr))',
-          gap: '6px',
+          gap: '4px',
           backgroundColor: '#cc0000',
-          padding: '10px',
-          borderRadius: '20px',
+          padding: '6px',
+          borderRadius: '16px',
           aspectRatio: '1/1',
           boxShadow: '0 25px 50px -12px rgba(0, 57, 43, 0.5)'
         }}>
@@ -112,60 +112,67 @@ export default function GameBoard() {
               >
                 {/* Property Header Color */}
                 {square.color && (
-                  <div className="absolute top-0 w-full h-1/4 min-h-[16px] border-b-2 border-black/30" style={{ backgroundColor: square.color }} />
+                  <div className="absolute top-0 w-full h-[12px] lg:h-[16px] border-b border-black/30" style={{ backgroundColor: square.color }} />
                 )}
 
                 {/* Tokens (pulse if current turn) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 sm:gap-2 z-20 pointer-events-none items-center justify-center">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-1 z-30 pointer-events-none items-center justify-center">
                   {isP1Here && (
-                    <div className={`text-2xl sm:text-3xl filter drop-shadow-md translate-y-2 lg:translate-y-4 ${game.currentTurn === p1?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
+                    <div className={`text-xl sm:text-2xl filter drop-shadow-md lg:translate-y-2 ${game.currentTurn === p1?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
                       🎩
                     </div>
                   )}
                   {isP2Here && (
-                    <div className={`text-2xl sm:text-3xl filter drop-shadow-md -translate-y-2 lg:-translate-y-4 ${game.currentTurn === p2?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
+                    <div className={`text-xl sm:text-2xl filter drop-shadow-md lg:-translate-y-2 ${game.currentTurn === p2?.wallet ? 'animate-bounce drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]' : ''}`}>
                       🏎️
                     </div>
                   )}
                 </div>
 
-                <div className="z-10 mt-2 px-1 text-[10px] lg:text-xs font-black uppercase leading-[1.1] break-words">
+                {/* Property Icon (The "Picture") */}
+                {square.icon && (
+                  <div className="z-10 mt-2 text-xl sm:text-2xl lg:text-3xl drop-shadow-sm opacity-90 select-none">
+                    {square.icon}
+                  </div>
+                )}
+
+                <div className="z-10 mt-1 px-1 text-[7px] lg:text-[9px] font-black uppercase leading-[1] break-words max-w-[90%]">
                   {square.name}
                 </div>
                 
                 {square.price ? (
-                  <div className="z-10 mt-auto mb-1 text-[9px] lg:text-[10px] font-bold opacity-60">
+                  <div className="z-10 mt-auto mb-1.5 text-[7px] lg:text-[8px] font-bold opacity-70">
                     {square.price} SOL
                   </div>
                 ) : null}
 
                 {/* Ownership bottom bar */}
-                {owner === p1?.wallet && <div className="absolute bottom-0 w-full h-1.5 bg-[#cc0000]" />}
-                {owner === p2?.wallet && <div className="absolute bottom-0 w-full h-1.5 bg-[#000000]" />}
+                {owner === p1?.wallet && <div className="absolute bottom-0 w-full h-1 bg-[#cc0000]" />}
+                {owner === p2?.wallet && <div className="absolute bottom-0 w-full h-1 bg-[#000000]" />}
               </div>
             );
           })}
 
           {/* Center Dashboard (Grid Center hollow area) */}
           <div style={{
-            gridColumn: '2 / 6',
+            gridColumn: '2 / 5',
             gridRow: '2 / 6',
             backgroundColor: '#00392b',
-            borderRadius: '16px',
-            margin: '10px',
-            padding: '24px',
+            borderRadius: '12px',
+            margin: '6px',
+            padding: '12px',
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
-            border: '6px solid white'
-          }} className="space-y-4 text-white text-center">
+            border: '4px solid white'
+          }} className="space-y-3 text-white text-center">
             
-            <div className="flex justify-between items-center border-b-2 border-white/20 pb-4">
+            <div className="flex justify-between items-center border-b border-white/20 pb-2">
                <div>
-                  <h1 className="text-3xl lg:text-5xl font-black uppercase tracking-tighter text-[#ffeb3b]">
+                  <h1 className="text-xl lg:text-2xl font-black uppercase tracking-tighter text-[#ffeb3b] leading-none">
                     Game #{game.gameId.slice(-6)}
                   </h1>
-                  <p className="font-bold text-xs uppercase tracking-widest opacity-80 mt-1">
+                  <p className="font-bold text-[8px] lg:text-[10px] uppercase tracking-widest opacity-80 mt-1">
                     Turn #{game.turnNumber} • Escrow: {game.escrowBalance.toFixed(2)} SOL
                   </p>
                </div>
@@ -177,64 +184,64 @@ export default function GameBoard() {
                )}
             </div>
 
-            <div className="bg-white/10 p-4 rounded-xl shadow-lg border-2 border-dashed border-white/20 my-auto text-lg lg:text-2xl font-black uppercase leading-relaxed h-[100px] flex items-center justify-center italic text-[#ffeb3b]">
+            <div className="bg-white/10 p-2 rounded-lg shadow-inner border border-dashed border-white/20 my-auto text-sm lg:text-md font-black uppercase leading-tight h-[60px] flex items-center justify-center italic text-[#ffeb3b]">
               "{game.lastAction || "Waiting for Player 2"}"
             </div>
 
             {/* Players Status Horizontal */}
-            <div className="flex justify-around gap-4 w-full">
+            <div className="flex justify-around gap-2 w-full">
               {/* P1 */}
-              <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p1?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-lg transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
-                <div className="flex justify-between items-center mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">🎩</span>
-                    <span className="font-black uppercase text-sm">Player 1</span>
+              <div className={`p-2 rounded-lg border-2 flex-1 text-left flex flex-col justify-between ${game.currentTurn === p1?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-md transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
+                <div className="flex justify-between items-center mb-1">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">🎩</span>
+                    <span className="font-black uppercase text-[10px]">P1</span>
                   </div>
-                  <span className={`${game.currentTurn === p1?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-2 py-1 rounded text-xs font-bold`}>{p1 ? `${p1.balance.toFixed(3)} SOL` : 'Wait...'}</span>
+                  <span className={`${game.currentTurn === p1?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-1 py-0.5 rounded text-[9px] font-bold`}>{p1 ? `${p1.balance.toFixed(2)}` : '...'}</span>
                 </div>
-                <p className="text-[10px] font-mono break-all opacity-80 mb-2">{p1?.wallet || "Host..."}</p>
-                <div className="bg-black/5 p-2 rounded flex justify-between items-center">
-                   <span className="text-[9px] uppercase font-bold opacity-50">Location</span>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-[#cc0000]">📍 {p1?.positionName || "GO"}</span>
+                <div className="bg-black/5 px-1 py-0.5 mt-auto rounded flex justify-between items-center">
+                   <span className="text-[7px] uppercase font-bold opacity-50">Loc</span>
+                   <span className="text-[8px] font-black uppercase tracking-wide text-[#cc0000]">{p1?.positionName || "GO"}</span>
                 </div>
               </div>
 
                {/* P2 */}
-               <div className={`p-4 rounded-xl border-4 flex-1 text-left ${game.currentTurn === p2?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-lg transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
-                <div className="flex justify-between items-center mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">🏎️</span>
-                    <span className="font-black uppercase text-sm">Player 2</span>
+               <div className={`p-2 rounded-lg border-2 flex-1 text-left flex flex-col justify-between ${game.currentTurn === p2?.wallet ? 'border-[#ffeb3b] bg-white text-black shadow-md transform scale-105 transition-transform' : 'border-white/20 bg-white/10 text-white'}`}>
+                <div className="flex justify-between items-center mb-1">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">🏎️</span>
+                    <span className="font-black uppercase text-[10px]">P2</span>
                   </div>
-                  <span className={`${game.currentTurn === p2?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-2 py-1 rounded text-xs font-bold`}>{p2 ? `${p2.balance.toFixed(3)} SOL` : 'Wait...'}</span>
+                  <span className={`${game.currentTurn === p2?.wallet ? 'bg-black text-white' : 'bg-white/20 text-white'} px-1 py-0.5 rounded text-[9px] font-bold`}>{p2 ? `${p2.balance.toFixed(2)}` : '...'}</span>
                 </div>
-                <p className="text-[10px] font-mono break-all opacity-80 mb-2">{p2?.wallet || "Waiting..."}</p>
-                <div className="bg-black/5 p-2 rounded flex justify-between items-center">
-                   <span className="text-[9px] uppercase font-bold opacity-50">Location</span>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-[#000000]">📍 {p2?.positionName || "GO"}</span>
+                <div className="bg-black/5 px-1 py-0.5 mt-auto rounded flex justify-between items-center">
+                   <span className="text-[7px] uppercase font-bold opacity-50">Loc</span>
+                   <span className="text-[8px] font-black uppercase tracking-wide text-[#000000]">{p2?.positionName || "GO"}</span>
                 </div>
               </div>
             </div>
 
             {/* Blink Actions */}
-            <div className="flex flex-col md:flex-row gap-4 justify-between mt-auto">
-                <div className="bg-white p-3 rounded-xl border-2 border-dashed border-gray-400 text-black flex-1 text-left">
-                  <p className="text-[10px] font-black uppercase text-gray-500 mb-1">
-                    {game.status === "waiting" ? "🔗 Share with Player 2 to join" : "Player 2 Join Link"}
-                  </p>
-                  <code className="text-[9px] font-mono block mb-2 bg-gray-100 p-1 rounded overflow-hidden text-ellipsis whitespace-nowrap">{game.joinUrl}</code>
-                  <a href={game.joinUrl} target="_blank" rel="noopener noreferrer" className="inline-block w-full bg-[#00392b] hover:bg-[#002219] text-white font-black text-[10px] py-2 rounded text-center uppercase tracking-widest transition-colors">
-                    Join via Dial.to →
-                  </a>
-                </div>
+            <div className="flex flex-col gap-2 justify-between mt-auto">
+                {game.status === "waiting" && (
+                  <div className="bg-white p-2 rounded-lg border border-dashed border-gray-400 text-black w-full text-left">
+                    <p className="text-[8px] font-black uppercase text-gray-500 mb-0.5">
+                      🔗 Share with Player 2 to join
+                    </p>
+                    <code className="text-[7px] font-mono block mb-1 bg-gray-100 p-1 rounded overflow-hidden text-ellipsis whitespace-nowrap">{game.joinUrl}</code>
+                    <a href={game.joinUrl} target="_blank" rel="noopener noreferrer" className="inline-block w-full bg-[#00392b] hover:bg-[#002219] text-white font-black text-[9px] py-1.5 rounded text-center uppercase tracking-widest transition-colors">
+                      Join via Dial.to →
+                    </a>
+                  </div>
+                )}
 
                 {game.status === "active" && (
-                <div className="bg-[#cc0000]/10 p-3 rounded-xl border-2 border-[#cc0000] text-black flex-1 text-left bg-white">
-                  <p className="text-[10px] font-black uppercase text-[#cc0000] mb-1">
-                    🎲 Current Player Roll
+                <div className="bg-white p-2 rounded-lg border-2 border-[#cc0000] text-black w-full text-left">
+                  <p className="text-[8px] font-black uppercase text-[#cc0000] mb-0.5">
+                    🎲 Current Player Roll Action
                   </p>
-                  <code className="text-[9px] font-mono block mb-2 bg-gray-100 p-1 rounded overflow-hidden text-ellipsis whitespace-nowrap">{game.rollUrl}</code>
-                  <a href={game.rollUrl} target="_blank" rel="noopener noreferrer" className="inline-block w-full bg-[#cc0000] hover:bg-[#a30000] text-white font-black text-[10px] py-2 rounded text-center uppercase tracking-widest transition-colors animate-pulse">
+                  <code className="text-[7px] font-mono block mb-1 bg-gray-100 p-1 rounded overflow-hidden text-ellipsis whitespace-nowrap">{game.rollUrl}</code>
+                  <a href={game.rollUrl} target="_blank" rel="noopener noreferrer" className="inline-block w-full bg-[#cc0000] hover:bg-[#a30000] text-white font-black text-[9px] py-1.5 rounded text-center uppercase tracking-widest transition-colors animate-pulse">
                     Open Action in Dial.to →
                   </a>
                 </div>
