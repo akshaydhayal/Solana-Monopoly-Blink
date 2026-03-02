@@ -1,4 +1,5 @@
 import {
+  ComputeBudgetProgram,
   Connection,
   Keypair,
   PublicKey,
@@ -8,6 +9,11 @@ import {
 } from "@solana/web3.js";
 
 const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL || "https://api.devnet.solana.com";
+
+// Priority fee: 200,000 micro-lamports per compute unit.
+// This significantly improves confirmation speed on devnet.
+const PRIORITY_FEE_MICRO_LAMPORTS = 200_000;
+const COMPUTE_UNITS = 200_000;
 
 export function getConnection(): Connection {
   return new Connection(RPC_URL, "confirmed");
@@ -25,6 +31,17 @@ export function getEscrowPublicKey(): PublicKey {
 }
 
 /**
+ * Returns the standard priority fee instructions to add to any transaction.
+ * This dramatically speeds up confirmation time on devnet and mainnet.
+ */
+function getPriorityFeeInstructions() {
+  return [
+    ComputeBudgetProgram.setComputeUnitLimit({ units: COMPUTE_UNITS }),
+    ComputeBudgetProgram.setComputeUnitPrice({ microLamports: PRIORITY_FEE_MICRO_LAMPORTS }),
+  ];
+}
+
+/**
  * Build a transaction that transfers SOL from `from` to the escrow.
  * This tx is unsigned — the user's wallet will sign it.
  */
@@ -37,10 +54,11 @@ export async function buildTransferToEscrow(
   const lamports = Math.round(solAmount * LAMPORTS_PER_SOL);
 
   const tx = new Transaction().add(
+    ...getPriorityFeeInstructions(),
     SystemProgram.transfer({ fromPubkey: from, toPubkey: escrow, lamports })
   );
 
-  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash();
+  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash("finalized");
   tx.recentBlockhash = blockhash;
   tx.lastValidBlockHeight = lastValidBlockHeight;
   tx.feePayer = from;
@@ -60,6 +78,7 @@ export async function buildAndSignPayoutFromEscrow(
   const lamports = Math.round(solAmount * LAMPORTS_PER_SOL);
 
   const tx = new Transaction().add(
+    ...getPriorityFeeInstructions(),
     SystemProgram.transfer({
       fromPubkey: escrow.publicKey,
       toPubkey: winner,
@@ -67,7 +86,7 @@ export async function buildAndSignPayoutFromEscrow(
     })
   );
 
-  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash();
+  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash("finalized");
   tx.recentBlockhash = blockhash;
   tx.lastValidBlockHeight = lastValidBlockHeight;
   tx.feePayer = escrow.publicKey;
@@ -93,8 +112,8 @@ export async function buildMemoTx(
     data: Buffer.from(memo, "utf-8"),
   };
 
-  const tx = new Transaction().add(ix);
-  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash();
+  const tx = new Transaction().add(...getPriorityFeeInstructions(), ix);
+  const { blockhash, lastValidBlockHeight } = await conn.getLatestBlockhash("finalized");
   tx.recentBlockhash = blockhash;
   tx.lastValidBlockHeight = lastValidBlockHeight;
   tx.feePayer = payer;
