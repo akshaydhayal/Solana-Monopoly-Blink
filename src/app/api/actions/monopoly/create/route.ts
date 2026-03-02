@@ -28,7 +28,7 @@ export async function GET(_req: NextRequest) {
       actions: [
         {
           type: "transaction",
-          href: "/api/actions/monopoly/create",
+          href: `${APP_URL}/api/actions/monopoly/create`,
           label: `🎲 Create Game (${ENTRY_FEE_SOL} SOL)`,
         },
       ],
@@ -75,10 +75,13 @@ export async function POST(req: NextRequest) {
     });
 
     const gameId = game._id.toString();
+    console.log(`[create] New game created: ${gameId} for ${player1}`);
 
     // Build the stake transfer tx (player → escrow)
+    const startTime = Date.now();
     const tx = await buildTransferToEscrow(player1Pubkey, ENTRY_FEE_SOL);
     const serialized = serializeTx(tx);
+    console.log(`[create] Tx built in ${Date.now() - startTime}ms`);
 
     const joinUrl = `${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`;
     const escrowPubkey = getEscrowPublicKey().toBase58();

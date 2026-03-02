@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
       actions: [
         {
           type: "transaction",
-          href: `/api/actions/monopoly/join?gameId=${gameId}`,
+          href: `${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`,
           label: `🎮 Join Game (${ENTRY_FEE_SOL} SOL)`,
         },
       ],
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
       links: {
         next: {
           type: "post",
-          href: `/api/actions/monopoly/${gameId}/roll-callback`,
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/roll-callback`,
         },
       },
     });

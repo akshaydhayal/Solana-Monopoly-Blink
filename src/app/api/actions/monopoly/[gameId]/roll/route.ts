@@ -215,12 +215,12 @@ export async function POST(
                   actions: [
                     {
                       type: "transaction",
-                      href: `/api/actions/monopoly/${gameId}/buy?position=${newPos}`,
+                      href: `${APP_URL}/api/actions/monopoly/${gameId}/buy?position=${newPos}`,
                       label: `💰 Buy for ${square.price} SOL`,
                     },
                     {
                       type: "transaction",
-                      href: `/api/actions/monopoly/${gameId}/skip`,
+                      href: `${APP_URL}/api/actions/monopoly/${gameId}/skip`,
                       label: "⏭ Skip (don't buy)",
                     },
                   ],
@@ -329,7 +329,7 @@ export async function POST(
               actions: [
                 {
                   type: "transaction",
-                  href: `/api/actions/monopoly/${gameId}/roll`,
+                  href: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
                   label: "🎲 It's your turn — Roll!",
                 },
               ],

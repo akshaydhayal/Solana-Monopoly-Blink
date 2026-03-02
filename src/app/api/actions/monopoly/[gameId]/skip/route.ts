@@ -32,7 +32,7 @@ export async function GET(
       actions: [
         {
           type: "transaction",
-          href: `/api/actions/monopoly/${gameId}/skip`,
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/skip`,
           label: "⏭ Skip",
         },
       ],
@@ -93,7 +93,7 @@ export async function POST(
               actions: [
                 {
                   type: "transaction",
-                  href: `/api/actions/monopoly/${gameId}/roll`,
+                  href: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
                   label: "🎲 Roll Dice",
                 },
               ],

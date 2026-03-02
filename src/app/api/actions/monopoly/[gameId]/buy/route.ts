@@ -35,7 +35,7 @@ export async function GET(
       actions: [
         {
           type: "transaction",
-          href: `/api/actions/monopoly/${gameId}/buy?position=${position}`,
+          href: `${APP_URL}/api/actions/monopoly/${gameId}/buy?position=${position}`,
           label: `💰 Buy ${square.name}`,
         },
       ],
@@ -134,7 +134,7 @@ export async function POST(
               actions: [
                 {
                   type: "transaction",
-                  href: `/api/actions/monopoly/${gameId}/roll`,
+                  href: `${APP_URL}/api/actions/monopoly/${gameId}/roll`,
                   label: "🎲 Roll Dice",
                 },
               ],
