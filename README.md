@@ -1,4 +1,6 @@
-# Monopoly Blink 🎲🚀
+# Solana Monopoly Blink 🎲🚀
+
+Live Project Link: [https://solana-monopoly-blink.vercel.app/](https://solana-monopoly-blink.vercel.app/)
 
 The classic board game reinvented entirely as a **Solana Action/Blink** allowing two players to stake SOL, roll dice, buy 20 distinct properties, and bankrupt each other directly from inside their Solana wallet (like Phantom) or Twitter feed via Dial.to!
 
@@ -34,31 +36,31 @@ Here is the step-by-step flow of the game, played entirely within Dial.to Blinks
   <tr>
     <td align="center">
       <b>1. Initial State (Player 1)</b><br/><br/>
-      <img src="placeholder_1_before_create.png" alt="Before creating game for Player 1" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/create-game.png" alt="Before creating game for Player 1" width="300" />
     </td>
     <td align="center">
       <b>2. Game Created (Player 1)</b><br/><br/>
-      <img src="placeholder_2_after_create.png" alt="After creating game, blink for Player 1" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game2.png" alt="After creating game, blink for Player 1" width="300" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <b>3. Incoming Invite (Player 2)</b><br/><br/>
-      <img src="placeholder_3_before_join.png" alt="How blink looks for Player 2 before joining" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game3.png" alt="How blink looks for Player 2 before joining" width="300" />
     </td>
     <td align="center">
       <b>4. Game Joined (Player 2)</b><br/><br/>
-      <img src="placeholder_4_after_join.png" alt="After joining game for Player 2" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game4.png" alt="After joining game for Player 2" width="300" />
     </td>
   </tr>
   <tr>
     <td align="center">
       <b>5. Roll Dice (Player 1)</b><br/><br/>
-      <img src="placeholder_5_roll_dice.png" alt="Roll dice blink for Player 1" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game5.png" alt="Roll dice blink for Player 1" width="300" />
     </td>
     <td align="center">
       <b>6. Action Phase (Player 1)</b><br/><br/>
-      <img src="placeholder_6_buy_property.png" alt="Player 1 rolled dice and saw options to buy or skip" width="300" />
+      <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/game6.png" alt="Player 1 rolled dice and saw options to buy or skip" width="300" />
     </td>
   </tr>
 </table>
@@ -68,7 +70,7 @@ Here is the step-by-step flow of the game, played entirely within Dial.to Blinks
 Players can watch their emojis move around the board in real-time as they click through the Blinks!
 
 <div align="center">
-  <img src="placeholder_7_dashboard.png" alt="The game dashboard page look" />
+  <img src="https://github.com/akshaydhayal/Solana-Monopoly-Blink/blob/main/demo/Monopoly-Blink-Solana-Action-Game.png" alt="The game dashboard page look" />
 </div>
 
 ## Environment Setup 🛠️
