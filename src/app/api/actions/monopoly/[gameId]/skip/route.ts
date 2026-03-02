@@ -5,6 +5,7 @@ import Game, { IPlayerState } from "@/models/Game";
 import { buildMemoTx, serializeTx } from "@/lib/solana/escrow";
 import { getIconUrl } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -24,7 +25,7 @@ export async function GET(
 
   return corsResponse({
     type: "action",
-    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],
     icon: getIconUrl(game, APP_URL),
     title: "⏭ Skip Buying Property",
     description: "Pass on buying this property and end your turn.",
@@ -68,6 +69,7 @@ export async function POST(
 
     const tx = await buildMemoTx(walletPubkey, `monopoly:skip:${gameId}`);
     const serialized = serializeTx(tx);
+    const baseUrl = getBaseUrl(req);
 
     return corsResponse({
       type: "transaction",
@@ -76,7 +78,7 @@ export async function POST(
       links: {
         next: {
           type: "post",
-          href: `${APP_URL}/api/actions/monopoly/${gameId}/skip-result`,
+          href: `${baseUrl}/api/actions/monopoly/${gameId}/skip-result`,
         },
       },
     });

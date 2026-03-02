@@ -5,6 +5,7 @@ import Game, { IPlayerState } from "@/models/Game";
 import { buildMemoTx, buildTransferToEscrow, serializeTx } from "@/lib/solana/escrow";
 import { getIconUrl, BOARD } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -77,7 +78,7 @@ export async function GET(
 
   return corsResponse({
     type: "action",
-    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],
     icon: getIconUrl(game, APP_URL),
     title: `🎲 Monopoly — Roll Dice`,
     description: buildBoardSummary(game),
@@ -126,6 +127,7 @@ export async function POST(
     // Build the Memo tx (player signs to "commit" to a roll)
     const tx = await buildMemoTx(walletPubkey, `monopoly:roll:${gameId}:${game.turnNumber}`);
     const serialized = serializeTx(tx);
+    const baseUrl = getBaseUrl(req);
 
     return corsResponse({
       type: "transaction",
@@ -134,7 +136,7 @@ export async function POST(
       links: {
         next: {
           type: "post",
-          href: `${APP_URL}/api/actions/monopoly/${gameId}/roll-result`,
+          href: `${baseUrl}/api/actions/monopoly/${gameId}/roll-result`,
         },
       },
     });

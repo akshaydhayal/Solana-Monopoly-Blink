@@ -5,6 +5,7 @@ import Game from "@/models/Game";
 import { buildTransferToEscrow, serializeTx } from "@/lib/solana/escrow";
 import { ENTRY_FEE_SOL } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
 
   return corsResponse({
     type: "action",
-    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],
     icon: `${APP_URL}/monopoly-icon.png`,
     title: `🎲 Join Monopoly Game`,
     description: `You've been invited to a Monopoly game!\n\nGame ID: ${gameId.slice(-6)}\nPlayer 1: ${game.player1.slice(0, 8)}...\n\nStake ${ENTRY_FEE_SOL} SOL to join. Winner takes ${ENTRY_FEE_SOL * 2} SOL!`,
@@ -95,6 +96,7 @@ export async function POST(req: NextRequest) {
     // Build stake transfer (player2 → escrow)
     const tx = await buildTransferToEscrow(player2Pubkey, ENTRY_FEE_SOL);
     const serialized = serializeTx(tx);
+    const baseUrl = getBaseUrl(req);
 
     return corsResponse({
       type: "transaction",
@@ -103,7 +105,7 @@ export async function POST(req: NextRequest) {
       links: {
         next: {
           type: "post",
-          href: `${APP_URL}/api/actions/monopoly/${gameId}/join-callback`,
+          href: `${baseUrl}/api/actions/monopoly/${gameId}/join-callback`,
         },
       },
     });

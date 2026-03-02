@@ -11,6 +11,15 @@ export async function OPTIONS() {
 }
 
 /**
+ * GET — helpful error for debugging if hit manually.
+ */
+export async function GET() {
+  return corsResponse({
+    message: "This endpoint expects a POST callback from a Solana Blink client.",
+  }, 405);
+}
+
+/**
  * POST callback — called by blink client after Player 2 join tx is submitted.
  * We officially start the game here.
  */
@@ -28,7 +37,10 @@ export async function POST(
 
     console.log(`[join-callback] Sig received from ${player2}: ${signature}`);
 
+    const dbStartTime = Date.now();
     await connectDB();
+    console.log(`[join-callback] DB connected in ${Date.now() - dbStartTime}ms`);
+
     const game = await Game.findById(gameId);
     if (!game) return corsResponse({ message: "Game not found" }, 404);
 

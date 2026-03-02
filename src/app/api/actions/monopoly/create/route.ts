@@ -1,14 +1,12 @@
 import { NextRequest } from "next/server";
 import { PublicKey } from "@solana/web3.js";
-import connectDB from "@/lib/db";
-import Game from "@/models/Game";
 import {
   buildTransferToEscrow,
   serializeTx,
-  getEscrowPublicKey,
 } from "@/lib/solana/escrow";
 import { ENTRY_FEE_SOL } from "@/lib/game/board";
 import { corsResponse, corsOptions } from "@/lib/cors";
+import { getBaseUrl } from "@/lib/getBaseUrl";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -20,7 +18,7 @@ export async function OPTIONS(_req: NextRequest) {
 export async function GET(_req: NextRequest) {
   return corsResponse({
     type: "action",
-    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"],
+    chains: ["solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"],
     icon: `${APP_URL}/monopoly-icon.png`,
     title: "🎲 Monopoly Blink — Create Game",
     description: `Start a 2-player Monopoly game on Solana devnet! Both players stake ${ENTRY_FEE_SOL} SOL. Winner takes all. Share the join link with your opponent after creating.`,
@@ -37,7 +35,7 @@ export async function GET(_req: NextRequest) {
   });
 }
 
-// POST — create game in DB, build stake transfer tx
+// POST — build stake transfer tx; game is created in create-callback after signature
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -54,6 +52,11 @@ export async function POST(req: NextRequest) {
       return corsResponse({ message: "Invalid public key" }, 400);
     }
 
+    // Derive the base URL from the incoming request so callbacks always
+    // point to the correct server regardless of env variable value.
+    const baseUrl = getBaseUrl(req);
+    console.log(`[create] Using baseUrl: ${baseUrl}`);
+
     // Build the stake transfer tx (player → escrow)
     const startTime = Date.now();
     const tx = await buildTransferToEscrow(player1Pubkey, ENTRY_FEE_SOL);
@@ -67,7 +70,7 @@ export async function POST(req: NextRequest) {
       links: {
         next: {
           type: "post",
-          href: `${APP_URL}/api/actions/monopoly/create-callback`,
+          href: `${baseUrl}/api/actions/monopoly/create-callback`,
         },
       },
     });

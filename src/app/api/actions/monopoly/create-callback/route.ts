@@ -11,6 +11,15 @@ export async function OPTIONS() {
 }
 
 /**
+ * GET — helpful error for debugging if hit manually.
+ */
+export async function GET() {
+  return corsResponse({
+    message: "This endpoint expects a POST callback from a Solana Blink client.",
+  }, 405);
+}
+
+/**
  * POST callback — called by blink client after create tx is submitted.
  * We create the actual Game record here only AFTER the user signs.
  */
@@ -24,7 +33,9 @@ export async function POST(req: NextRequest) {
 
     console.log(`[create-callback] Sig received from ${player1}: ${signature}`);
 
+    const dbStartTime = Date.now();
     await connectDB();
+    console.log(`[create-callback] DB connected in ${Date.now() - dbStartTime}ms`);
 
     // Create game record now
     const game = await Game.create({
