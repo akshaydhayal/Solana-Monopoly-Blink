@@ -48,11 +48,14 @@ export async function POST(
     game.markModified("players");
     await game.save();
 
+    const nextRollApiUrl = `${APP_URL}/api/actions/monopoly/${gameId}/roll`;
+    const nextRollUrl = `https://dial.to/?action=solana-action:${encodeURIComponent(nextRollApiUrl)}&cluster=devnet`;
+
     return corsResponse({
       type: "action",
       icon: getIconUrl(game, APP_URL),
       title: "⏭ Turn Passed",
-      description: `Opponent's turn! Roll link:\n${APP_URL}/api/actions/monopoly/${gameId}/roll`,
+      description: `Opponent's turn! Roll link:\n${nextRollUrl}`,
       label: "Waiting for opponent...",
       disabled: true,
     });

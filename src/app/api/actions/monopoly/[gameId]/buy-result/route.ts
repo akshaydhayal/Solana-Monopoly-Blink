@@ -66,11 +66,14 @@ export async function POST(
     game.markModified("properties");
     await game.save();
 
+    const nextRollApiUrl = `${APP_URL}/api/actions/monopoly/${gameId}/roll`;
+    const nextRollUrl = `https://dial.to/?action=solana-action:${encodeURIComponent(nextRollApiUrl)}&cluster=devnet`;
+
     return corsResponse({
       type: "action",
       icon: getIconUrl(game, APP_URL),
       title: "🏠 Property Purchased!",
-      description: `${actionMessage}\n\nOpponent's turn: ${APP_URL}/api/actions/monopoly/${gameId}/roll`,
+      description: `${actionMessage}\n\nOpponent's turn link:\n${nextRollUrl}`,
       label: "Turn Passed",
       disabled: true,
     });

@@ -57,13 +57,14 @@ export async function POST(req: NextRequest) {
     });
 
     const gameId = game._id.toString();
-    const joinUrl = `${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`;
+    const joinApiUrl = `${APP_URL}/api/actions/monopoly/join?gameId=${gameId}`;
+    const joinUrl = `https://dial.to/?action=solana-action:${encodeURIComponent(joinApiUrl)}&cluster=devnet`;
 
     return corsResponse({
       type: "completed",
       icon: `${APP_URL}/monopoly-icon.png`,
       title: "✅ Game Created Successfully!",
-      description: `Your 0.1 SOL stake has been submitted.\n\nShare this join link with Player 2 to start playing:\n\n${joinUrl}`,
+      description: `Your 0.1 SOL stake has been submitted.\n\nShare this link with Player 2 to start playing:\n\n${joinUrl}`,
       label: "Game Ready!",
     });
   } catch (err) {

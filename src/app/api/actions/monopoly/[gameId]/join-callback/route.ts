@@ -86,11 +86,14 @@ export async function POST(
     game.markModified("players");
     await game.save();
 
+    const rollApiUrl = `${APP_URL}/api/actions/monopoly/${gameId}/roll`;
+    const rollUrl = `https://dial.to/?action=solana-action:${encodeURIComponent(rollApiUrl)}&cluster=devnet`;
+
     return corsResponse({
       type: "action",
       icon: getIconUrl(game, APP_URL),
       title: "🎲 Game Started! Player 1's Turn",
-      description: `You've joined the game! Player 1 goes first.\n\nShare the dashboard with your opponent:\n${APP_URL}/game/${gameId}`,
+      description: `You've joined the game! Player 1 goes first.\n\nKeep this link to Roll Dice on your turn:\n${rollUrl}\n\nShare the dashboard with your opponent:\n${APP_URL}/game/${gameId}`,
       label: "Waiting for P1...",
       disabled: true,
       links: {
