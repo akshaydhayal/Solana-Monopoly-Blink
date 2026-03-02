@@ -106,7 +106,7 @@ export default function GameBoard() {
                     {/* Join Link */}
                     <div className="bg-gray-100 p-4 rounded-xl border-2 border-dashed border-gray-400">
                       <p className="text-xs font-black uppercase text-gray-500 mb-2">
-                        {game.status === "waiting" ? "🔗 Share with Player 2 to Join" : "🔗 Player 2 Join Link"}
+                        {game.status === "waiting" ? "🔗 Share with Player 2 to join" : "🔗 Player 2 Join Link"}
                       </p>
                       <code className="text-xs break-all font-mono bg-white p-2 rounded block mb-3 text-gray-700">
                         {game.joinUrl}
